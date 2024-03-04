@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>โจทย์ฟังก์ชันรวม</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        max-width: 500px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      p#result {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+
+      button#closeButton {
+        background-color: #f44336;
+      }
+
+      button#closeButton:hover {
+        background-color: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>โจทย์ฟังก์ชันรวม</h1>
+
+      <div id="question"></div>
+      <input type="text" id="answer" placeholder="กรอกคำตอบของคุณ" />
+      <button id="generateButton">สร้างโจทย์แบบสุ่ม</button>
+      <button id="checkButton">ตรวจสอบคำตอบ</button>
+      <p id="result"></p>
+      <button id="closeButton">ปิด</button>
+    </div>
+
+    <script>
+      var functionsObj = {}; // Store the functions object globally
+
+      function generateFunctions() {
+        // สร้างค่าค่าคงที่สำหรับฟังก์ชัน
+        var a1 = Math.floor(Math.random() * 9) + 1; // ค่าคงที่สำหรับ f(x)
+        var b1 = Math.floor(Math.random() * 9) + 1; // ค่าคงที่สำหรับ g(x)
+        var a2 = Math.floor(Math.random() * 9) + 1; // ค่าคงที่สำหรับ f(x)
+        var b2 = Math.floor(Math.random() * 9) + 1; // ค่าคงที่สำหรับ g(x)
+
+        // สร้างฟังก์ชัน
+        var f_x = "f(x) = " + a1 + "x + " + a2;
+        var g_x = "g(x) = " + b1 + "x + " + b2;
+
+        return {
+          f_x: f_x,
+          g_x: g_x,
+          a1: a1,
+          b1: b1,
+          a2: a2,
+          b2: b2,
+        };
+      }
+
+      function displayFunctions() {
+        functionsObj = generateFunctions();
+        document.getElementById("question").innerText =
+          "ฟังก์ชันที่กำหนด:\n" +
+          "f(x)" +
+          " = " +
+          functionsObj.a1 +
+          "x + " +
+          functionsObj.a2 +
+          "\n" +
+          "g(x)" +
+          " = " +
+          functionsObj.b1 +
+          "x + " +
+          functionsObj.b2 +
+          "\n" +
+          "จงหาค่าของ f(g(x))" +
+          "\n";
+        document.getElementById("answer").value = "";
+        document.getElementById("result").innerText = "";
+      }
+
+      function compositeFunction(a1, b1, b2, a2) {
+        // คำนวณฟังก์ชันรวม f(g(x))
+        var compositeFunction =
+          "f(g(x)) = f(" +
+          b1 +
+          "x + " +
+          b2 +
+          ") = " +
+          a1 +
+          "(" +
+          b1 +
+          "x + " +
+          b2 +
+          ") + " +
+          a2;
+        return compositeFunction;
+      }
+
+      function checkAnswer() {
+        var userAnswer = document.getElementById("answer").value;
+        var { a1, b1, b2, a2 } = functionsObj; // ดึงค่า a1, b1, b2, a2 จาก functionsObj
+        var correctAnswer = compositeFunction(a1, b1, b2, a2);
+        var solution = correctAnswer;
+        var result = "";
+
+        if (userAnswer === correctAnswer) {
+  result = "คำตอบของคุณถูกต้อง!";
+} else {
+  result = "คำตอบของคุณไม่ถูกต้อง";
+  result += "\nคำตอบที่ถูกต้องคือ: " + correctAnswer;
+}
+
+        document.getElementById("result").innerText =
+          "ผลลัพธ์: " +
+          result +
+          "\n";
+      }
+
+      function generateRandomQuestion() {
+        displayFunctions();
+      }
+
+      function closeResult() {
+        document.getElementById("result").innerText = "";
+      }
+
+      // Add event listeners
+      document.getElementById("generateButton").addEventListener("click", generateRandomQuestion);
+      document.getElementById("checkButton").addEventListener("click", checkAnswer);
+      document.getElementById("closeButton").addEventListener("click", closeResult);
+    </script>
+  </body>
+</html>
