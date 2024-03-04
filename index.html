@@ -73,7 +73,7 @@
   </head>
   <body>
     <div class="container">
-      <h1>โจทย์ฟังก์ชันรวม</h1>
+      <h1>โจทย์ฟังก์ชันประกอบ</h1>
 
       <div id="question"></div>
       <input type="text" id="answer" placeholder="กรอกคำตอบของคุณ" />
@@ -131,40 +131,20 @@
 
       function compositeFunction(a1, b1, b2, a2) {
         // คำนวณฟังก์ชันรวม f(g(x))
-        var compositeFunction =
-          "f(g(x)) = f(" +
-          b1 +
-          "x + " +
-          b2 +
-          ") = " +
-          a1 +
-          "(" +
-          b1 +
-          "x + " +
-          b2 +
-          ") + " +
-          a2;
+        var result = (a1 * b2) + a2; // คำนวณค่า (a1*b2)+a2
+        var compositeFunction = 'f(g(x)) = f(' + b1 + 'x + ' + b2 + ') = ' + a1 + '(' + b1 + 'x + ' + b2 + ') + ' + a2 + ' = ' + (a1 * b1) + 'x + ' + result;
         return compositeFunction;
       }
 
       function checkAnswer() {
-        var userAnswer = document.getElementById("answer").value;
-        var { a1, b1, b2, a2 } = functionsObj; // ดึงค่า a1, b1, b2, a2 จาก functionsObj
-        var correctAnswer = compositeFunction(a1, b1, b2, a2);
-        var solution = correctAnswer;
-        var result = "";
-
-        if (userAnswer === correctAnswer) {
-  result = "คำตอบของคุณถูกต้อง!";
-} else {
-  result = "คำตอบของคุณไม่ถูกต้อง";
-  result += "\nคำตอบที่ถูกต้องคือ: " + correctAnswer;
-}
-
-        document.getElementById("result").innerText =
-          "ผลลัพธ์: " +
-          result +
-          "\n";
+    var userAnswer = document.getElementById('answer').value;
+    if (functionsObj === null) {
+        alert('กรุณาสร้างโจทย์ก่อนที่จะตรวจสอบคำตอบ');
+        return;
+    }
+    var { a1, b1, b2, a2 } = functionsObj;
+    var correctAnswer = compositeFunction(a1, b1, b2, a2);
+    document.getElementById('result').innerText = 'คำตอบของคุณคือ:' + userAnswer + '\n'+'คำตอบที่ถูกต้องคือ:' + correctAnswer;
       }
 
       function generateRandomQuestion() {
